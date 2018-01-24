@@ -1,3 +1,2 @@
-print("hello python")
+print("Init file of the package")
 
-__import__("Problem12_HighlyDivisibleTriangularNumber")
