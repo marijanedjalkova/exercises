@@ -116,7 +116,6 @@ def get_column_sum(number_list, carryover):
 def get_first_n_digits_of_sum(n, number_length):
     number_string_list = list(chunks(a, number_length))
     # do the usual summing up large numbers from behind
-    # I do realise you only need to sum up 11 first digits to receive 10 correct first digits
     res = ""
     carryover = 0
     for col in range(0, n + 1):
