@@ -13,19 +13,19 @@ def get_sequence_length(starting_number):
     first_number = starting_number
     if starting_number in result_dict:
         return result_dict[starting_number]
-    sequence = [starting_number]
+    sequence_length = 1
     already_seen = False
     res = 0
     while starting_number > 1:
         starting_number = get_next_number(starting_number)
-        sequence.append(starting_number)
+        sequence_length += 1
         if starting_number in result_dict:
             # append the number for that to the res
             already_seen = True
-            res = len(sequence) - 1 + result_dict[starting_number]
+            res = sequence_length - 1 + result_dict[starting_number]
             break
     if not already_seen:
-        res = len(sequence)
+        res = sequence_length
     result_dict[first_number] = res
     return res
 
