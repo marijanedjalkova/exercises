@@ -8,69 +8,62 @@ def tests():
     return res
 
 
-def get_number_of_letters(number):
-    if number in word_dict:
-        return len(word_dict[number])
-    return get_number_of_letters_calculate(number)
-
-
-def get_number_of_letters_calculate(number):
-    # get the last two digits
-    thousands = number // 1000 % 10  # e.g. 6 for number 6543
+def process_three(number, power):
+    # this is the {}, a 3-digit number
+    # it is definitely less than a thousand
+    # returns the description and units - e.g. thousand, million, billion etc.
+    res = 0
+    res_string = ""
     hundreds = number // 100 % 10  # e.g. 6 for number 7654
     tens = number // 10 % 10  # e.g 6 for number 4762
     ones = number % 10
-    res = 0
-    res_string = ""
-    if thousands:
-        phrase = word_dict[thousands] + "thousand"
-        res += len(phrase)
-        res_string += phrase + " "
     if hundreds:
         phrase = word_dict[hundreds] + "hundred"
         res += len(phrase)
-        res_string += phrase + " "
-    if (thousands or hundreds) and (tens or ones):
+        res_string += phrase
+    if hundreds and (tens or ones):
         phrase = "and"
         res += len(phrase)
-        res_string += phrase + " "
+        res_string += phrase
     if tens == 1:
         phrase = word_dict[tens * 10 + ones]
         res += len(phrase)
-        res_string += phrase + " "
+        res_string += phrase
     else:
         if tens:
             phrase = word_dict[tens * 10]
             res += len(phrase)
-            res_string += phrase + " "
+            res_string += phrase
         if ones:
             phrase = word_dict[ones]
             res += len(phrase)
-            res_string += phrase + " "
-    return res
-
-def process_three(number):
-    # this is the {}, a 3-digit number
-    # it is definitely less than a thousand
-    hundreds = number // 100 % 10  # e.g. 6 for number 7654
-    tens = number // 10 % 10  # e.g 6 for number 4762
-    ones = number % 10
+            res_string += phrase
+    if power:
+        power_data = power_dict[power]
+        res += len(power_data)
+        res_string += power_data
+    return res, res_string
 
 
-
-def smarter(number):
+def get_len_and_desc_of_number(number, power):
     # every three digits are processed in exactly the same way
     # {} billion {} million {} thousand {}
-    pass
+    # get the last three digits, get the result
+    if number < 1000:
+        res = process_three(number % 1000, power)
+        return res
+    new_smarter = get_len_and_desc_of_number(number // 1000, power + 3)
+    last_three = process_three(number % 1000, power)
+    res_string = new_smarter[1] + last_three[1]
+    return new_smarter[0] + last_three[0], res_string
 
 
 def get_number_of_letters_range(start, end):
-    if start == end:
-        return get_number_of_letters(start)
     res = 0
     for i in range(start, end + 1):
-        res += get_number_of_letters(i)
+        res += get_len_and_desc_of_number(i, 0)[0]
     return res
+
 
 power_dict = {3: "thousand", 6: "million", 9: "billion"}
 
