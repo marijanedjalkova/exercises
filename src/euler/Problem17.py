@@ -11,14 +11,14 @@ def tests():
 def get_number_of_letters(number):
     if number in word_dict:
         return len(word_dict[number])
-    return get_number_of_letters_power(number)
+    return get_number_of_letters_calculate(number)
 
 
-def get_number_of_letters_power(number):
+def get_number_of_letters_calculate(number):
     # get the last two digits
-    thousands = number // 1000 % 10  # e.g. 6000 for number 6543
-    hundreds = number // 100 % 10  # e.g. 600 for number 7654
-    tens = number // 10 % 10  # e.g 60 for number 4762
+    thousands = number // 1000 % 10  # e.g. 6 for number 6543
+    hundreds = number // 100 % 10  # e.g. 6 for number 7654
+    tens = number // 10 % 10  # e.g 6 for number 4762
     ones = number % 10
     res = 0
     res_string = ""
@@ -34,25 +34,34 @@ def get_number_of_letters_power(number):
         phrase = "and"
         res += len(phrase)
         res_string += phrase + " "
-    if tens and tens != 1:
-        phrase = word_dict[tens * 10]
+    if tens == 1:
+        phrase = word_dict[tens * 10 + ones]
         res += len(phrase)
         res_string += phrase + " "
+    else:
+        if tens:
+            phrase = word_dict[tens * 10]
+            res += len(phrase)
+            res_string += phrase + " "
         if ones:
             phrase = word_dict[ones]
             res += len(phrase)
             res_string += phrase + " "
-    else:
-        if tens == 1:
-            phrase = word_dict[tens * 10 + ones]
-            res += len(phrase)
-            res_string += phrase + " "
-    if not tens and ones:
-        phrase = word_dict[ones]
-        res += len(phrase)
-        res_string += phrase
-    print(res_string)
     return res
+
+def process_three(number):
+    # this is the {}, a 3-digit number
+    # it is definitely less than a thousand
+    hundreds = number // 100 % 10  # e.g. 6 for number 7654
+    tens = number // 10 % 10  # e.g 6 for number 4762
+    ones = number % 10
+
+
+
+def smarter(number):
+    # every three digits are processed in exactly the same way
+    # {} billion {} million {} thousand {}
+    pass
 
 
 def get_number_of_letters_range(start, end):
@@ -63,6 +72,7 @@ def get_number_of_letters_range(start, end):
         res += get_number_of_letters(i)
     return res
 
+power_dict = {3: "thousand", 6: "million", 9: "billion"}
 
 word_dict = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine",
              10: "ten",
