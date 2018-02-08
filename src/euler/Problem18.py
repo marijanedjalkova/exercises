@@ -1,4 +1,5 @@
 from euler.input_Problem18 import input_string_15
+from euler.input_Problem67 import input_string_100
 counter = 0
 sum_dict = {}
 
@@ -38,7 +39,7 @@ def find_max_sum(current_level=0, current_pos=0):
 
 if __name__ == "__main__":
     print(tests())
-    assign_triangle(input_string_15)
+    assign_triangle(input_string_100)
     counter = 0
     sum_dict.clear()
     if counter == 0 and not sum_dict.keys():
