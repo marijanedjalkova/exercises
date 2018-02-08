@@ -20,8 +20,19 @@ def get_days_in_month(input_date):
     return 31
 
 
-def get_day_of_week_lib(input_date):
-    return input_date.weekday()
+def get_day_of_week(input_date, prev_dow):
+    # given a previous 1st, calculate how many days
+    # were in the previous month
+    # divide by 7, get remainder and add to the previous number
+    if input_date.month > 1:
+        year_of_prev_month = input_date.year
+        prev_month = input_date.month - 1
+    else:
+        year_of_prev_month = input_date.year - 1
+        prev_month = 12
+    days = get_days_in_month(datetime(year_of_prev_month, prev_month, 1))
+    remainder_of_full_weeks = days % 7
+    return (remainder_of_full_weeks + prev_dow) % 7
 
 
 def solve(start_date, end_date):
@@ -31,11 +42,16 @@ def solve(start_date, end_date):
     # calculate which day of week it was
     # if sunday, +1
     res = 0
+    prev_dow = 0 # jan 1 1900
+    for month in range(2, 13):
+        prev_dow = get_day_of_week(datetime(1900, month, 1), prev_dow)
+    # have calculated which dow was 01.12.1900
     for year in range(start_date.year, end_date.year + 1):
         for month in range(1, 13):
-            dow = get_day_of_week_lib(datetime(year, month, 1))
+            dow = get_day_of_week(datetime(year, month, 1), prev_dow)
             if dow == 6:
                 res += 1
+            prev_dow = dow
     return res
 
 
