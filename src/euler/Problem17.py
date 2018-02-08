@@ -75,5 +75,4 @@ word_dict = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: 
              80: "eighty", 90: "ninety"}
 
 if __name__ == "__main__":
-    print(tests())
     print(get_number_of_letters_range(1, 1000))
