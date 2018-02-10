@@ -1,11 +1,6 @@
 from math import factorial
 
 
-def tests():
-    res = find_factorial_digit_sum(10) == 27
-    return res
-
-
 def find_digit_sum(number):
     res = 0
     num = number
@@ -21,4 +16,4 @@ def find_factorial_digit_sum(number):
 
 
 if __name__ == "__main__":
-    print(tests())
+    print(find_factorial_digit_sum(100))
