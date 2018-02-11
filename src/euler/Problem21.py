@@ -7,13 +7,14 @@ def tests():
 
 
 def get_divisor_sum(in_number):
-    divisors = [1]
+    divisors = set()
+    divisors.add(1)
     upper_limit = in_number // 2 + 1
     current_num = 2
     while current_num <= upper_limit:
         if not in_number % current_num:
-            divisors.append(current_num)
-            divisors.append(in_number // current_num)
+            divisors.add(current_num)
+            divisors.add(in_number // current_num)
             upper_limit = in_number // current_num - 1
         current_num += 1
     return sum(divisors)
