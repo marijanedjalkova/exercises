@@ -1,3 +1,6 @@
+import time
+
+
 def get_divisor_sum(in_number):
     divisors = set()
     divisors.add(1)
@@ -15,16 +18,11 @@ def get_divisor_sum(in_number):
 known_abundant = set()
 
 
-def is_abundant(in_number, is_for_real=True):
-    # 16 divisible by 1, 2, 4, 8
-    # 8 + 4 + 2 + 1 = 15
+def is_abundant(in_number):
     if in_number in known_abundant:
         return True
     res = in_number < get_divisor_sum(in_number)
     if res:
-        if is_for_real:
-            print("Wait a mo, shouldn't be here")
-            exit(1)
         known_abundant.add(in_number)
     return res
 
@@ -38,22 +36,7 @@ def is_not_sum_of2_abundants(number):
     return True
 
 
-def solve_problem():
-    # find sum of all positive integers which cannot be written
-    # the sum of two abundant numbers
-    upper_limit = 28123
-    #res = sum(range(24))  # should be 276
-    res = 0
-    # since 24 is the smallest number that can be expressed
-    # as a sum of 2 abundant numbers
-    for n in range(upper_limit + 1):
-        if is_not_sum_of2_abundants(n):
-            print(n)
-            res += n
-    return res
-
-
-def another_solution():
+def find_sum_not_sum_of2_abundants():
     upper_limit = 28123
     total_sum = sum(range(upper_limit+1))
     for i in range(upper_limit+1):
@@ -64,11 +47,11 @@ def another_solution():
 
 def generate_abundant():
     for i in range(12, 28123):
-        if is_abundant(i, False):
+        if is_abundant(i):
             known_abundant.add(i)
     print("Initialised the dictionary")
 
 
 if __name__ == "__main__":
     generate_abundant()
-    print(another_solution())
+    print(find_sum_not_sum_of2_abundants())
